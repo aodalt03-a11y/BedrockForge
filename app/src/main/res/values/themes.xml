@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BedrockForge" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#1DB954</item>
+        <item name="colorPrimaryVariant">#158A3E</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSurface">#1E1E1E</item>
+        <item name="android:windowBackground">#121212</item>
+    </style>
+</resources>

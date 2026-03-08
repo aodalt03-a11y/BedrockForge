@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#121212</color>
+    <color name="ic_launcher_foreground">#1DB954</color>
+    <string name="app_name">BedrockForge</string>
+    <style name="Theme.BedrockForge" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">#1DB954</item>
+        <item name="colorPrimaryVariant">#158A3E</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSurface">#1E1E1E</item>
+        <item name="android:windowBackground">#121212</item>
+    </style>
+</resources>

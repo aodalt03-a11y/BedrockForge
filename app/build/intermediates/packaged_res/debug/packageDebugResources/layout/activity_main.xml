@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#121212"
+    android:padding="16dp">
+
+    <TextView
+        android:text="BedrockForge"
+        android:textColor="#1DB954"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:text="● Stopped"
+        android:textColor="#FF4444"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Server Address -->
+    <TextView
+        android:text="Server Address"
+        android:textColor="#AAAAAA"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="host:port"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#555555"
+        android:background="#1E1E1E"
+        android:padding="12dp"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Auth Status -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/tvAuth"
+            android:text="Xbox: Not logged in"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnAuth"
+            android:text="Login"
+            android:backgroundTint="#1DB954"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- Schematics -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:text="Schematics"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnAddSchem"
+            android:text="+ Add File"
+            android:backgroundTint="#333333"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvSchematics"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#1E1E1E"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Start/Stop -->
+    <Button
+        android:id="@+id/btnStartStop"
+        android:text="START PROXY"
+        android:backgroundTint="#1DB954"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Log -->
+    <ScrollView
+        android:id="@+id/scrollLog"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#0D0D0D">
+
+        <TextView
+            android:id="@+id/tvLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#00FF88"
+            android:textSize="11sp"
+            android:fontFamily="monospace"
+            android:padding="8dp"/>
+    </ScrollView>
+
+</LinearLayout>
