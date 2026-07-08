@@ -35,7 +35,7 @@ disappear when chunks reload (just run `.place` again).
 - `app/` — the Android launcher app (Kotlin). It runs the proxy binary, which
   is packaged as `libmcproxy.so` so Android allows executing it.
 - `proxy/cmd/genmap` — generator for the Java→Bedrock block mapping asset
-  (`app/src/main/assets/java_bedrock_map.nbt.gz`).
+  (`app/src/main/assets/java_bedrock_map.bin`).
 
 ## Block mapping
 
@@ -54,7 +54,7 @@ curl -LO https://raw.githubusercontent.com/GeyserMC/mappings/master/blocks.nbt
 # 3. Compile the asset:
 cd proxy && go run ./cmd/genmap \
   -report generated/reports/blocks.json -geyser blocks.nbt \
-  -java-version <version> -out ../app/src/main/assets/java_bedrock_map.nbt.gz
+  -java-version <version> -out ../app/src/main/assets/java_bedrock_map.bin
 ```
 
 ## Building

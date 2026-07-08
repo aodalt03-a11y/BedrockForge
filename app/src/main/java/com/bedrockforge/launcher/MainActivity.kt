@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
             appendLog("Error: proxy binary missing from APK (${bin.absolutePath})\n")
             return
         }
-        extractAsset("java_bedrock_map.nbt.gz")
+        extractAsset("java_bedrock_map.bin")
 
         // Write config.json
         val config = mapOf("server" to server, "listen" to "0.0.0.0:19132")
