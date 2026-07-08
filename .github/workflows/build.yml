@@ -45,8 +45,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # Install only what the build needs — the action's default set includes
+      # the emulator, which is a large flaky download we never use.
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-34 build-tools;34.0.0'
 
       - name: Build Release APK
         run: |
