@@ -101,9 +101,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun importSchematic(uri: Uri) {
         val name = getFileName(uri) ?: "unknown.litematic"
-        val valid = listOf(".litematic", ".schem", ".schematic", ".nbt", ".json")
+        val valid = listOf(".litematic", ".schem")
         if (valid.none { name.endsWith(it) }) {
-            Toast.makeText(this, "Unsupported file type", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Unsupported file type (use .litematic or .schem)", Toast.LENGTH_SHORT).show()
             return
         }
         val dest = File(schemDir(), name)
@@ -147,23 +147,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun extractBinary(): File {
-        val bin = File(filesDir, "mcproxy")
-        if (!bin.exists() || bin.length() == 0L) {
-            assets.open("bedrockforge-android").use { input ->
-                bin.outputStream().use { output -> input.copyTo(output) }
-            }
-            bin.setExecutable(true)
-        }
-        return bin
-    }
+    // The proxy is packaged as a fake native library so Android allows
+    // executing it (exec from filesDir is blocked since Android 10).
+    private fun proxyBinary(): File = File(applicationInfo.nativeLibraryDir, "libmcproxy.so")
 
     private fun extractAsset(name: String): File {
         val dest = File(filesDir, name)
-        if (!dest.exists()) {
-            assets.open(name).use { input ->
-                dest.outputStream().use { output -> input.copyTo(output) }
-            }
+        // Re-extract on every start so app updates refresh the asset.
+        assets.open(name).use { input ->
+            dest.outputStream().use { output -> input.copyTo(output) }
         }
         return dest
     }
@@ -182,9 +174,12 @@ class MainActivity : AppCompatActivity() {
         // Save server
         getPreferences(MODE_PRIVATE).edit().putString("server", server).apply()
 
-        // Extract binary and assets
-        val bin = extractBinary()
-        extractAsset("bedrock_blocks.json")
+        val bin = proxyBinary()
+        if (!bin.exists()) {
+            appendLog("Error: proxy binary missing from APK (${bin.absolutePath})\n")
+            return
+        }
+        extractAsset("java_bedrock_map.nbt.gz")
 
         // Write config.json
         val config = mapOf("server" to server, "listen" to "0.0.0.0:19132")
@@ -205,7 +200,8 @@ class MainActivity : AppCompatActivity() {
             btnStartStop.backgroundTintList = android.content.res.ColorStateList.valueOf(0xFFCC4444.toInt())
 
             appendLog("Started proxy -> $server\n")
-            appendLog("Connect Minecraft to: your-ip:19132\n")
+            appendLog("In Minecraft, add a server pointing to this phone (127.0.0.1:19132 on the same device).\n")
+            appendLog("In-game, type .help in chat for commands.\n")
 
             // Read output
             Thread {

@@ -21,6 +21,15 @@ android {
         }
     }
 
+    // The Go proxy ships as a fake native lib (libmcproxy.so) so it can be
+    // executed from nativeLibraryDir — Android 10+ blocks exec() from the app
+    // data dir. Legacy packaging forces extraction of the lib to disk.
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
