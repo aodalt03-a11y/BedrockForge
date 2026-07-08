@@ -10,6 +10,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 
 	"github.com/aodalt03-a11y/BedrockForge/proxy/core"
@@ -47,8 +48,13 @@ func main() {
 
 	mods := []core.Mod{litematica.New()}
 
+	// Surface gophertunnel's internal handshake/packet errors to stdout so
+	// they appear in the app log; by default they are discarded.
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
+
 	listener, err := minecraft.ListenConfig{
 		StatusProvider: minecraft.NewStatusProvider("BedrockForge", "BedrockForge"),
+		ErrorLog:       logger,
 	}.Listen("raknet", cfg.Listen)
 	if err != nil {
 		log.Fatalf("listen on %v: %v", cfg.Listen, err)
@@ -65,7 +71,7 @@ func main() {
 			return
 		}
 		conn := c.(*minecraft.Conn)
-		go handleConn(listener, conn, cfg.Server, src, mods)
+		go handleConn(listener, conn, cfg.Server, src, mods, logger)
 	}
 }
 

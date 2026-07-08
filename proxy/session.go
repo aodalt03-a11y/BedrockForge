@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -14,13 +15,14 @@ import (
 )
 
 // handleConn proxies a single accepted client connection to the remote server.
-func handleConn(listener *minecraft.Listener, client *minecraft.Conn, remote string, src oauth2.TokenSource, mods []core.Mod) {
+func handleConn(listener *minecraft.Listener, client *minecraft.Conn, remote string, src oauth2.TokenSource, mods []core.Mod, logger *slog.Logger) {
 	name := client.IdentityData().DisplayName
 	log.Printf("[%v] connected, dialing %v", name, remote)
 
 	server, err := minecraft.Dialer{
 		TokenSource: src,
 		ClientData:  client.ClientData(),
+		ErrorLog:    logger,
 	}.DialTimeout("raknet", remote, 30*time.Second)
 	if err != nil {
 		log.Printf("[%v] dial %v: %v", name, remote, err)
