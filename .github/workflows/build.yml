@@ -53,17 +53,22 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease
 
+      # apksigner (not jarsigner): Android 11+ requires an APK signature
+      # scheme v2 signature, which jarsigner cannot produce. Align first,
+      # then sign — v2 signing must happen after zipalign.
       - name: Sign and align APK
         run: |
-          ZIPALIGN=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)/zipalign
-          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-            -keystore buildKey.jks \
-            -storepass bedrockforge123 \
-            -keypass bedrockforge123 \
-            app/build/outputs/apk/release/app-release-unsigned.apk bedrockforge
-          $ZIPALIGN -v 4 \
+          BT=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)
+          $BT/zipalign -f 4 \
             app/build/outputs/apk/release/app-release-unsigned.apk \
             app/build/outputs/apk/release/BedrockForge.apk
+          $BT/apksigner sign \
+            --ks buildKey.jks \
+            --ks-pass pass:bedrockforge123 \
+            --key-pass pass:bedrockforge123 \
+            --ks-key-alias bedrockforge \
+            app/build/outputs/apk/release/BedrockForge.apk
+          $BT/apksigner verify --print-certs app/build/outputs/apk/release/BedrockForge.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
